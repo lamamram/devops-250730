@@ -7,11 +7,11 @@ test:
     - formation
   # commandes de préparation avant l'exécution du job
   before_script:
+    - cd app
     - python3 -m venv v_env
     - source v_env/bin/activate
     - pip3 install -r requirements.txt
     - pip3 install -r requirements-dev.txt
   # script à exécuter
   script:
-    - cd app
     - pytest -v -m "not e2e"
