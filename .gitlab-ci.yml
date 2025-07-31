@@ -86,3 +86,4 @@ quality:
       -Dsonar.exclusions=./app/bank/tests/**/*.py
       -Dsonar.host.url=http://gitlab.lan.fr:9000
       -Dsonar.login=$SONAR_TOKEN
+      -Dsonar.qualitygate.wait=true
