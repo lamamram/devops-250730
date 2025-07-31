@@ -46,12 +46,22 @@ test:
   # script à exécuter
   script:
     - cd app
-    - pytest -v -m "not e2e"
+    # ">" convertit les saut de ligne en espace
+    - >
+      pytest -v -m "not e2e" 
+      --junit-xml=./units.xml
   # utilisation du cache
   cache:
     key: pip_deps
     untracked: true
     policy: pull
+  # tout fichier ou dossier créé généré au cours de l'exécution du job
+  # à faire remonter dans l'interface Gitlab OU en téléchargement
+  artifacts:
+    access: developer
+    expire_in: "1 hour"
+    paths:
+      - app/units.xml
 
 quality:
   stage: qualifying
