@@ -1,4 +1,4 @@
-@BDD
+@e2e
 Feature: log into the app 
     Tests related to the banking app  
   
