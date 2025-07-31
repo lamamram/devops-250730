@@ -1,8 +1,9 @@
 # nom arbitraire d'un job
 test:
-  # association entre un job et un runner
+  # association entre un job et un/des runner(s)
   tags:
     - formation
   # script à exécuter
   script:
-    - echo "TESTS !!!"
+    - cd app
+    - pytest -v -m "not e2e"
