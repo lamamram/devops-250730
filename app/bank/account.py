@@ -38,6 +38,11 @@ class Account:
             self.__update_balance(value)
 
     def withdraw(self, value: float):
+        """
+        withdraw money from the account
+        :param value: the amount to withdraw
+        :return: None
+        """
         if isinstance(value, (int, float)) and value > 0:
             self.__update_balance(-value)
 
