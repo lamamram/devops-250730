@@ -1,0 +1,8 @@
+# nom arbitraire d'un job
+test:
+  # association entre un job et un runner
+  tags:
+    - formation
+  # script à exécuter
+  script:
+    - echo "TESTS !!!"
