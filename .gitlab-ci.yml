@@ -72,8 +72,17 @@ test:
 
 quality:
   stage: qualifying
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
   tags:
     - formation
   script:
-    - sleep 10
-    - echo "QUALITY"
+    # utiliser une variable cachée pour le token => slide gitlab
+    - >
+      sonar-scanner
+      -Dsonar.projectKey=project
+      -Dsonar.sources=./app/bank
+      -Dsonar.exclusions=./app/bank/tests/**/*.py
+      -Dsonar.host.url=http://gitlab.lan.fr:9000
+      -Dsonar.login=$SONAR_TOKEN
