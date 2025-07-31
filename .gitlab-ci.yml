@@ -9,7 +9,7 @@ stages:
 
 # variable d'environnement custom
 variables:
-  TRIGGER_CACHE: "on"
+  TRIGGER_CACHE: "off"
 
 generate_deps:
   stage: buiding
