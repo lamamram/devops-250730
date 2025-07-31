@@ -1,7 +1,15 @@
 # image docker du pipeline (pour chaque job) par défaut
 image: python:3.13-slim-bookworm
+
+# étapes du pipeline à exécuter dans l'ordre
+stages:
+  - testing
+  - qualifying
+
+
 # nom arbitraire d'un job
 test:
+  stage: testing
   # association entre un job et un/des runner(s)
   tags:
     - formation
@@ -15,3 +23,11 @@ test:
   # script à exécuter
   script:
     - pytest -v -m "not e2e"
+
+quality:
+  stage: qualifying
+  tags:
+    - formation
+  script:
+    - sleep 10
+    - echo "QUALITY"
