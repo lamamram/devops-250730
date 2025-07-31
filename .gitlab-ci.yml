@@ -3,8 +3,36 @@ image: python:3.13-slim-bookworm
 
 # étapes du pipeline à exécuter dans l'ordre
 stages:
+  - buiding
   - testing
   - qualifying
+
+# variable d'environnement custom
+variables:
+  TRIGGER_CACHE: "off"
+
+generate_deps:
+  stage: buiding
+  tags:
+    - myusine
+  script:
+    - python3 -m venv v_env
+    - source ./v_env/bin/activate
+    - pip3 install -r app/requirements.txt
+    - pip3 install -r app/requirements-dev.txt
+  # cacher le dossier v_env pour les jobs suivants
+  cache:
+    key: pip_deps
+    paths:
+      - v_env
+    untracked: true
+    policy: push
+  # on exécute ce job uniquement si le fichier requirements.txt a été modifié
+  rules:
+    - changes:
+        - app/requirements*.txt
+      when: on_success
+    - if: $TRIGGER_CACHE == "on"
 
 
 # nom arbitraire d'un job
@@ -13,16 +41,17 @@ test:
   # association entre un job et un/des runner(s)
   tags:
     - formation
-  # commandes de préparation avant l'exécution du job
   before_script:
-    - cd app
-    - python3 -m venv v_env
     - source v_env/bin/activate
-    - pip3 install -r requirements.txt
-    - pip3 install -r requirements-dev.txt
   # script à exécuter
   script:
+    - cd app
     - pytest -v -m "not e2e"
+  # utilisation du cache
+  cache:
+    key: pip_deps
+    untracked: true
+    policy: pull
 
 quality:
   stage: qualifying
