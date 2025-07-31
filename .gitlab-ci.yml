@@ -60,8 +60,15 @@ test:
   artifacts:
     access: developer
     expire_in: "1 hour"
+    # téléchargement et ajout aux jobs suivants
     paths:
       - app/units.xml
+    # rapports spéciaux avec des formats spécifiques attendus par Gitlab
+    # interpétés par la GUI gitlab
+    reports:
+      junit:
+        - app/units.xml
+      
 
 quality:
   stage: qualifying
