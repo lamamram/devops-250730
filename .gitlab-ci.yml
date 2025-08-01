@@ -50,6 +50,11 @@ test:
     - >
       pytest -v -m "not e2e" 
       --junit-xml=./units.xml
+      --cov=bank
+      --cov-report=term
+      --cov-report=xml:./coverage.xml
+  # regex permet de faire remonter le pourcentage de couverture total dans gitlab
+  coverage: "/^TOTAL.*?([0-9]{1,3})%/"
   # utilisation du cache
   cache:
     key: pip_deps
@@ -68,6 +73,10 @@ test:
     reports:
       junit:
         - app/units.xml
+      # remonter le rapport de couverture
+      coverage_report:
+        coverage_format: cobertura
+        path: app/coverage.xml
       
 
 quality:

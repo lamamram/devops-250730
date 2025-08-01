@@ -33,6 +33,9 @@ class Account:
     def getBalance(self):
         return self.__balance
 
+
+
+    ## publique methods
     def deposit(self, value: float):
         if isinstance(value, (int, float)) and value > 0:
             self.__update_balance(value)

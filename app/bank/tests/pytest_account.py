@@ -5,7 +5,7 @@ import warnings
 import sys
 
 
-## paramètres du cas test => FIXTURES
+## paramètres du cas test   => FIXTURES
 def test_balance(account, balance):
     # capture de sys.stdout => option -s
     # print(f"\nbalance: {account.getBalance()}\n")
