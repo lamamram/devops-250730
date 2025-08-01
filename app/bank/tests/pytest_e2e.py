@@ -21,6 +21,7 @@ from .pom_pages import *
 #   h1 = selenium.find_elements(By.TAG_NAME, "h1")[0]
 #   assert "Simple Bank Interface" == h1.text
 
+
 @pytest.mark.e2e
 def test_login(selenium, account_1):
     # ARRANGE
@@ -31,7 +32,3 @@ def test_login(selenium, account_1):
     # Assert
     home_page = HomePage(selenium)
     assert "Simple Bank Interface" == home_page.get_title()
-  
-
-
-
