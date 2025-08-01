@@ -1,17 +1,45 @@
+# classe client avec un nom et un prénom
+class Client:
+    """
+    Classe représentant un client avec un nom et un prénom.
+    """
+    
+    def __init__(self, nom, prenom):
+        """
+        Initialise un nouveau client.
+        
+        Args:
+            nom (str): Le nom du client.
+            prenom (str): Le prénom du client.
+        """
+        self.__nom = nom
+        self.__prenom = prenom
+
+    def afficher_informations(self):
+        """
+        Affiche les informations du client.
+        
+        Returns:
+            str: Les informations du client formatées.
+        """
+        return f"Client: {self.__prenom} {self.__nom}"
+
 # créer une classe compte bancaire avec un dépôt et un retrait
 class CompteBancaire:
     """
     Classe représentant un compte bancaire avec des opérations de base.
     """
     
-    def __init__(self, solde_initial=0):
+    def __init__(self, client: Client, solde_initial=100.):
         """
         Initialise un nouveau compte bancaire.
         
         Args:
             solde_initial (float, optional): Le solde initial du compte. Par défaut 0.
+            client (Client, optional): Un objet Client associé au compte. Par défaut None.
         """
         self.solde = solde_initial
+        self.client = client
 
     def deposer(self, montant):
         """
@@ -51,3 +79,17 @@ class CompteBancaire:
             print(f"Retrait de {montant} effectué. Nouveau solde: {self.solde}")
         else:
             print("Montant de retrait invalide ou solde insuffisant.")
+    
+    def afficher_client_informations(self):
+        """
+        Affiche les informations du client associé au compte.
+        
+        Returns:
+            str: Les informations du client formatées.
+        """
+        if self.client:
+            # injection de dépendance => couplage faible
+            # la classe CompteBancaire ne connaît que les méthodes publiques de la classe Client
+            return self.client.afficher_informations()
+        else:
+            return "Aucun client associé à ce compte."
