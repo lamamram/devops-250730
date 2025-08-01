@@ -6,6 +6,7 @@ stages:
   - buiding
   - testing
   - qualifying
+  - interface-tests
 
 # variable d'environnement custom
 variables:
@@ -96,3 +97,36 @@ quality:
       -Dsonar.host.url=http://gitlab.lan.fr:9000
       -Dsonar.login=$SONAR_TOKEN
       -Dsonar.qualitygate.wait=true
+
+## POST DEPLOYMENT
+
+e2e:
+  stage: interface-tests
+  tags:
+    - formation
+  # 3. on va se donner un conteneur "sidecar" / service : selenium/firefox
+  services:
+    - name: selenium/standalone-firefox:latest
+      # nom du domaine du serveur !!!
+      alias: selenium-server
+  before_script:
+    # 2. le script client (test ) doit avoir accès au driver (geckodriver)
+    # on exécute le conteneur en tant que root
+    # on met le driver dans le PATH 
+    - mv geckodriver /usr/bin/
+    - chmod +x /usr/bin/geckodriver
+  script:
+    - source ./venv/bin/activate
+    - cd app
+    # 1. il va falloir distinguer les tests unitaires des tests e2e:
+    # => avec le marqueur activé dans le pytest.ini
+    - pytest -m e2e
+  cache:
+    key: pip_deps
+    untracked: true
+    policy: pull
+  # alias YAML
+  # rules: *staging
+  rules: &staging
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_TAG
